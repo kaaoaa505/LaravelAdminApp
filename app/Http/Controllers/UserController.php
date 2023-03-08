@@ -58,7 +58,7 @@ class UserController extends Controller
     {
         $user->destroy($user->id);
 
-        return response('', Response::HTTP_NO_CONTENT);
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function user()

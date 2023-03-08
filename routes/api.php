@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,8 @@ Route::post('register', [AuthController::class, 'register']);
 // Route::apiResource('users', UserController::class)->middleware('auth:api');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('users', UserController::class);
+
+    Route::apiResource('roles', RoleController::class);
 
     Route::get('user', [UserController::class, 'user']);
 
