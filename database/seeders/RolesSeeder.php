@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
-class UsersSeeder extends Seeder
+class RolesSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(20)->create();
+        Role::factory(5)->create();
     }
 }
