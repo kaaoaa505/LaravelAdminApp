@@ -9,7 +9,12 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
 // Route::apiResource('users', UserController::class)->middleware('auth:api');
-Route::group(['middleware' =>'auth:api' ], function(){
+Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('users', UserController::class);
-});
 
+    Route::get('user', [UserController::class, 'user']);
+
+    Route::put('user/info/update', [UserController::class, 'userInfoUpdate']);
+
+    Route::put('user/password/update', [UserController::class, 'userPasswordUpdate']);
+});

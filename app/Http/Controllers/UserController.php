@@ -7,6 +7,7 @@ use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\User;
+use Auth;
 
 class UserController extends Controller
 {
@@ -56,5 +57,10 @@ class UserController extends Controller
         $user->destroy($user->id);
 
         return response('', Response::HTTP_NO_CONTENT);
+    }
+
+    public function user()
+    {
+        return Auth::user();
     }
 }
