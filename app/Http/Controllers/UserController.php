@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserInfoUpdateRequest;
+use App\Http\Requests\UserPasswordUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +30,7 @@ class UserController extends Controller
 
         $userFound = User::where('email', $data['email'])->count();
 
-        if($userFound > 0) return response("Error, user already exists", Response::HTTP_CONFLICT);
+        if ($userFound > 0) return response("Error, user already exists", Response::HTTP_CONFLICT);
 
         $data['password'] = Hash::make($data['password']);
 
@@ -41,9 +43,9 @@ class UserController extends Controller
     {
         $data = $request->only('first_name', 'last_name', 'password');
 
-        if(!empty($data['password'])){
+        if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
-        }else{
+        } else {
             unset($data['password']);
         }
 
@@ -62,5 +64,29 @@ class UserController extends Controller
     public function user()
     {
         return Auth::user();
+    }
+
+    public function userInfoUpdate(UserInfoUpdateRequest $request)
+    {
+        $user = Auth::user();
+
+        $data = $request->only('first_name', 'last_name');
+
+        $user->update($data);
+
+        return response($user, Response::HTTP_ACCEPTED);
+    }
+
+    public function userPasswordUpdate(UserPasswordUpdateRequest $request)
+    {
+        $user = Auth::user();
+
+        $data = $request->only('password');
+
+        $data['password'] = Hash::make($data['password']);
+
+        $user->update($data);
+
+        return response($user, Response::HTTP_ACCEPTED);
     }
 }
