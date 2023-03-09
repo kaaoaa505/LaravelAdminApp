@@ -19,13 +19,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
+ * @method static \Database\Factories\RoleFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class Role extends Model
 {
     use HasFactory;
 
-    public $guarded = ['id'];
+    protected $guarded = ['id'];
 
-    public $timestamps = true;
+    protected $timestamps = true;
 }
