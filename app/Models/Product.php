@@ -33,5 +33,5 @@ class Product extends Model
 
     protected $guarded = ['id'];
 
-    protected $timestamps = true;
+    public $timestamps = true;
 }

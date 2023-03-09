@@ -56,7 +56,7 @@ class User extends Authenticatable
 
     protected $guarded = ['id'];
 
-    protected $timestamps = true;
+    public $timestamps = true;
 
     protected $hidden = [
         'password',
