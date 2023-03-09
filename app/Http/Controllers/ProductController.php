@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -15,10 +17,12 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(Product $product)
+    {
+        return new ProductResource($product);
+    }
+
+    public function store(ProductCreateRequest $request)
     {
         $data = $request->all();
 
@@ -31,20 +35,19 @@ class ProductController extends Controller
         return response($product, Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        return new ProductResource($product);
-    }
+        $data = $request->all();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        if (request()->hasFile('image')) {
+            $data['image'] = request()->file('image')->store('uploads', 'public');
+        }else{
+            unset($data['image']);
+        }
+
+        $product->update($data);
+
+        return response($product, Response::HTTP_ACCEPTED);
     }
 
     /**
