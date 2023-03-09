@@ -15,18 +15,17 @@ class UserController extends Controller
 {
     public function index()
     {
-        // return User::orderBy('id', 'desc')->get();
-        return User::orderBy('id', 'desc')->paginate();
+        return User::with('role')->paginate();
     }
 
-    public function show(User $user)
+    public function show($id)
     {
-        return $user;
+        return User::with('role')->find($id);
     }
 
     public function store(UserCreateRequest $request)
     {
-        $data = $request->all();
+        $data = $request->only('first_name', 'last_name', 'email', 'password', 'role_id');
 
         $userFound = User::where('email', $data['email'])->count();
 
@@ -41,13 +40,15 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
-        $data = $request->only('first_name', 'last_name', 'password');
+        $data = $request->only('first_name', 'last_name', 'password', 'role_id');
 
         if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
         }
+
+        if (empty($data['role_id'])) unset($data['role_id']);
 
         $user->update($data);
 
