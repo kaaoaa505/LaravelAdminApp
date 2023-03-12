@@ -11,6 +11,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::post('register', [AuthController::class, 'register']);
 
+
 // Route::apiResource('users', UserController::class)->middleware('auth:api');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('users', UserController::class);
@@ -20,6 +21,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('products', ProductController::class);
 
     Route::apiResource('orders', OrderController::class)->only('index', 'show');
+    Route::get('export', [OrderController::class, 'export']);
 
     Route::get('user', [UserController::class, 'user']);
     Route::put('user/info/update', [UserController::class, 'userInfoUpdate']);
