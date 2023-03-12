@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereUpdatedAt($value)
  * @method static \Database\Factories\OrderItemFactory factory($count = null, $state = [])
+ * @property int $product_id
+ * @property-read \App\Models\Order $order
+ * @property-read \App\Models\Product $product
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereProductId($value)
  * @mixin \Eloquent
  */
 class OrderItem extends Model
@@ -35,4 +39,14 @@ class OrderItem extends Model
     protected $guarded = ['id'];
 
     public $timestamps = true;
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

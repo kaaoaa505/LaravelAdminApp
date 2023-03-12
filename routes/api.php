@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -18,9 +19,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::apiResource('products', ProductController::class);
 
+    Route::apiResource('orders', OrderController::class)->only('index', 'show');
+
     Route::get('user', [UserController::class, 'user']);
-
     Route::put('user/info/update', [UserController::class, 'userInfoUpdate']);
-
     Route::put('user/password/update', [UserController::class, 'userPasswordUpdate']);
 });
