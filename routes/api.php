@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -17,6 +18,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('users', UserController::class);
 
     Route::apiResource('roles', RoleController::class);
+
+    Route::apiResource('permissions', PermissionController::class)->only('index');
 
     Route::apiResource('products', ProductController::class);
 
