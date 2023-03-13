@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
  * @property-read int|null $order_items_count
+ * @property-read mixed $total
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
  * @mixin \Eloquent
  */
 class Order extends Model

@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @method static \Database\Factories\RoleFactory factory($count = null, $state = [])
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
  * @mixin \Eloquent
  */
 class Role extends Model
@@ -29,4 +31,9 @@ class Role extends Model
     protected $guarded = ['id'];
 
     public $timestamps = true;
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
 }
