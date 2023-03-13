@@ -6,24 +6,31 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
     public function index()
     {
+        Gate::authorize('view', 'products');
+
         $products = Product::paginate();
+
         return ProductResource::collection($products);
     }
 
     public function show(Product $product)
     {
+        Gate::authorize('view', 'products');
+
         return new ProductResource($product);
     }
 
     public function store(ProductCreateRequest $request)
     {
+        Gate::authorize('edit', 'products');
+
         $data = $request->all();
 
         $image_path = $request->file('image')->store('uploads', 'public');
@@ -37,6 +44,8 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product)
     {
+        Gate::authorize('edit', 'products');
+
         $data = $request->all();
 
         if (request()->hasFile('image')) {
@@ -50,11 +59,10 @@ class ProductController extends Controller
         return response($product, Response::HTTP_ACCEPTED);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
+        Gate::authorize('edit', 'products');
+
         Product::destroy($id);
 
         return response(null, Response::HTTP_NO_CONTENT);

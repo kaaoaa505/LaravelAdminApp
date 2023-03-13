@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use DateTime;
+use Gate;
 use Response;
 
 class OrderController extends Controller
 {
     public function index()
     {
+        Gate::authorize('view', 'orders');
+
         $orders = Order::paginate();
 
         return OrderResource::collection($orders);
@@ -18,11 +21,14 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+        Gate::authorize('view', 'orders');
+
         return new OrderResource($order);
     }
 
     public function export()
     {
+        Gate::authorize('view', 'orders');
 
         $now = DateTime::createFromFormat('U.u', microtime(true));
         $fileName = $now->format('Y-m-d_His_u') . '_orders.csv';
