@@ -32,4 +32,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user', [UserController::class, 'user']);
     Route::put('user/info/update', [UserController::class, 'userInfoUpdate']);
     Route::put('user/password/update', [UserController::class, 'userPasswordUpdate']);
+
+    Route::post('logout', [AuthController::class, 'logout']);
 });
