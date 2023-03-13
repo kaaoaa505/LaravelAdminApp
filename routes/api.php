@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
@@ -25,6 +26,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::apiResource('orders', OrderController::class)->only('index', 'show');
     Route::get('export', [OrderController::class, 'export']);
+
+    Route::get('chart', [DashboardController::class, 'chart']);
 
     Route::get('user', [UserController::class, 'user']);
     Route::put('user/info/update', [UserController::class, 'userInfoUpdate']);
