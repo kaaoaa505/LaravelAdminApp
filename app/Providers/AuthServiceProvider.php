@@ -25,10 +25,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('view', function (User $user, $model) {
-            if (!empty($user->permissions()))
-                return $user->permissions()->contains("view_{$model}");
+            return $user->hasAccess("view_$model") || $user->hasAccess("edit_$model");
+        });
 
-            return false;
+        Gate::define('edit', function (User $user, $model) {
+            return $user->hasAccess("edit_$model");
         });
     }
 }

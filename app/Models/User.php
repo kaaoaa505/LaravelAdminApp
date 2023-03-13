@@ -97,4 +97,12 @@ class User extends Authenticatable
 
         return null;
     }
+
+    public function hasAccess($access)
+    {
+        if (!empty($this->permissions()))
+            return $this->permissions()->contains($access);
+
+        return false;
+    }
 }

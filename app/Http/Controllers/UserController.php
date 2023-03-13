@@ -25,6 +25,8 @@ class UserController extends Controller
 
     public function show($id)
     {
+        Gate::authorize('view', 'users');
+
         $user = User::with('role')->find($id);
         return (new UserResource($user))->additional([
             'data' => [
@@ -35,6 +37,8 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
+        Gate::authorize('edit', 'users');
+
         $data = $request->only('first_name', 'last_name', 'email', 'password', 'role_id');
 
         $userFound = User::where('email', $data['email'])->count();
@@ -50,6 +54,8 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
+        Gate::authorize('edit', 'users');
+
         $data = $request->only('first_name', 'last_name', 'password', 'role_id');
 
         if (!empty($data['password'])) {
@@ -67,6 +73,8 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        Gate::authorize('edit', 'users');
+
         $user->destroy($user->id);
 
         return response(null, Response::HTTP_NO_CONTENT);
@@ -74,6 +82,8 @@ class UserController extends Controller
 
     public function user()
     {
+        Gate::authorize('view', 'users');
+
         return new UserResource(Auth::user());
     }
 
