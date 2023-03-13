@@ -23,7 +23,11 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::with('role')->find($id);
-        return new UserResource($user);
+        return (new UserResource($user))->additional([
+            'data' => [
+                'permissions' => $user->permissions()
+            ]
+        ]);
     }
 
     public function store(UserCreateRequest $request)
