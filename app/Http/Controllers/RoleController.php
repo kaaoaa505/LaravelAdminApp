@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use DB;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,18 +12,28 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return Role::all();
+        return RoleResource::collection(Role::all());
     }
 
     public function store(Request $request)
     {
         $role = Role::create($request->only('name'));
-        return response($role, Response::HTTP_CREATED);
+
+        if($permissions = $request->input('permissions')){
+            foreach($permissions as $permission_id){
+                DB::table('permission_role')->insert([
+                    'role_id' => $role->id,
+                    'permission_id' => $permission_id,
+                ]);
+            }
+        }
+
+        return response(new RoleResource($role), Response::HTTP_CREATED);
     }
 
     public function show(string $id)
     {
-        return Role::find($id);
+        return new RoleResource(Role::find($id));
     }
 
     /**
@@ -35,11 +47,26 @@ class RoleController extends Controller
 
         $role->update($data);
 
-        return response($role, Response::HTTP_ACCEPTED);
+        if($permissions = $request->input('permissions')){
+
+            DB::table('permission_role')->where('role_id', $role->id)->delete();
+
+            foreach($permissions as $permission_id){
+                DB::table('permission_role')->insert([
+                    'role_id' => $role->id,
+                    'permission_id' => $permission_id,
+                ]);
+            }
+        }
+
+        return response(new RoleResource($role), Response::HTTP_ACCEPTED);
     }
 
     public function destroy(string $id)
     {
+
+        DB::table('permission_role')->where('role_id', $id)->delete();
+
         Role::destroy($id);
 
         return response(null, Response::HTTP_NO_CONTENT);
