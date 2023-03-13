@@ -92,6 +92,9 @@ class User extends Authenticatable
 
     public function permissions()
     {
-        return $this->role->permissions->pluck('name');
+        if (!empty($this->role))
+            return $this->role->permissions->pluck('name');
+
+        return null;
     }
 }

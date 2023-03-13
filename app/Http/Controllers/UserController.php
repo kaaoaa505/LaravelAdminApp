@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\User;
 use Auth;
+use Gate;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role')->paginate();
+        Gate::authorize('view', 'users');
+
+        $users = User::with('role')->orderBy('id', 'desc')->paginate();
         return UserResource::collection($users);
     }
 

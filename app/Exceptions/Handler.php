@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,5 +45,12 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        $error = $e->getMessage();
+
+        return response(compact('error'), $e->getCode() ? $e->getCode() : HttpFoundationResponse::HTTP_BAD_REQUEST);
     }
 }
