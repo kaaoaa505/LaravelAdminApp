@@ -15,6 +15,19 @@ use Gate;
 
 class UserController extends Controller
 {
+    /**
+     * @QA\Get(path="/users",
+     * 		@QA\Response(
+     *				response="200",
+     *				description="User Collection",
+     *			),
+     * )
+     *
+     * @QA\Server(
+     * 	url=L5_SWAGGER_CONST_HOST,
+     *		description="Admin API Server"
+     * )
+     */
     public function index()
     {
         Gate::authorize('view', 'users');

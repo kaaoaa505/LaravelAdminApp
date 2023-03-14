@@ -1,0 +1,20 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Admin App ApplicationAPI",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Home page",
+                "operationId": "2092a1daa3a51c940fa17496cdb8df03",
+                "responses": {
+                    "default": {
+                        "description": "Welcome page"
+                    }
+                }
+            }
+        }
+    }
+}
