@@ -49,12 +49,14 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        // $errorInfo =  join(', ', $e->errorInfo);
+        $errorInfo = '';
+        if(isset($e->errorInfo) && !empty($e->errorInfo))
+            $errorInfo = join(', ', $e->errorInfo);
+
         $errorMessage = $e->getMessage();
-        $error = "Error: {$errorMessage}";
 
-        dd($e->errorInfo);
+        $error = "Error: {$errorMessage}, {$errorInfo}";
 
-        return response(compact('errorMessage'), $e->getCode() ? $e->getCode() : HttpFoundationResponse::HTTP_BAD_REQUEST);
+        return response(compact('error'), $e->getCode() ? $e->getCode() : HttpFoundationResponse::HTTP_BAD_REQUEST);
     }
 }

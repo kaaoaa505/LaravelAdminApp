@@ -5,8 +5,31 @@ namespace App\Http\Requests;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *      title="Update user request",
+ *      description="Update user request body data",
+ * )
+ */
 class UserUpdateRequest extends FormRequest
 {
+    /**
+     * @OA\Property(
+     *      title="first_name"
+     * )
+     *
+     * @var string
+     */
+    public $first_name;
+
+    /**
+     * @OA\Property(
+     *      title="last_name"
+     * )
+     *
+     * @var string
+     */
+    public $last_name;
     /**
      * Determine if the user is authorized to make this request.
      */

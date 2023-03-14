@@ -5,8 +5,59 @@ namespace App\Http\Requests;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *      title="Store user request",
+ *      description="Store user request body data",
+ * )
+ */
 class UserCreateRequest extends FormRequest
 {
+    /**
+     * @OA\Property(
+     *      title="first_name"
+     * )
+     *
+     * @var string
+     */
+    public $first_name;
+
+    /**
+     * @OA\Property(
+     *      title="last_name"
+     * )
+     *
+     * @var string
+     */
+    public $last_name;
+
+    /**
+     * @OA\Property(
+     *      title="email"
+     * )
+     *
+     * @var string
+     */
+    public $email;
+
+    /**
+     * @OA\Property(
+     *      title="password"
+     * )
+     *
+     * @var string
+     */
+    public $password;
+
+    /**
+     * @OA\Property(
+     *      title="role_id"
+     * )
+     *
+     * @var int
+     */
+    public $role_id;
+
     /**
      * Determine if the user is authorized to make this request.
      */

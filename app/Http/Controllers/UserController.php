@@ -16,16 +16,34 @@ use Gate;
 class UserController extends Controller
 {
     /**
-     * @QA\Get(path="/users",
-     * 		@QA\Response(
-     *				response="200",
-     *				description="User Collection",
-     *			),
+     * @OA\Get(
+     *     path="/api/users",
+     *     security={{"bearerAuth": {}}},
+     *     description="Users index request",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response="default",
+     *          description="User index response",
+     *          @OA\JsonContent()
+     *     ),
+     *     @OA\Parameter(
+     *          name="page",
+     *          description="Pagination page number",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
      * )
      *
-     * @QA\Server(
-     * 	url=L5_SWAGGER_CONST_HOST,
-     *		description="Admin API Server"
+     * @OA\SecurityScheme(
+     *      securityScheme="bearerAuth",
+     *      type="http",
+     *      scheme="bearer"
      * )
      */
     public function index()
@@ -36,6 +54,33 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *     description="Users show request",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response="default",
+     *          description="User show response",
+     *          @OA\JsonContent()
+     *     ),
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="User by id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
+     * )
+     *
+     */
     public function show($id)
     {
         Gate::authorize('view', 'users');
@@ -48,6 +93,23 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/users",
+     *     security={{"bearerAuth": {}}},
+     *     description="Users store request",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UserCreateRequest"),
+     *     ),
+     *     @OA\Response(
+     *          response="default",
+     *          description="User store response",
+     *          @OA\JsonContent()
+     *     ),
+     * )
+     *
+     */
     public function store(UserCreateRequest $request)
     {
         Gate::authorize('edit', 'users');
@@ -65,6 +127,34 @@ class UserController extends Controller
         return response(new UserResource($user), Response::HTTP_CREATED);
     }
 
+
+
+    /**
+     * @OA\Put(
+     *     path="/api/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *     description="Users update request",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UserUpdateRequest"),
+     *     ),
+     *     @OA\Response(
+     *          response="default",
+     *          description="User update response",
+     *          @OA\JsonContent()
+     *     ),
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="User by id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
+     * )
+     *
+     */
     public function update(UserUpdateRequest $request, User $user)
     {
         Gate::authorize('edit', 'users');
@@ -84,6 +174,35 @@ class UserController extends Controller
         return response(new UserResource($user), Response::HTTP_ACCEPTED);
     }
 
+
+
+    /**
+     * @OA\Delete(
+     *     path="/api/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *     description="Users delete request",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response="default",
+     *          description="User delete response",
+     *          @OA\JsonContent()
+     *     ),
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="User by id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
+     * )
+     *
+     */
     public function destroy(User $user)
     {
         Gate::authorize('edit', 'users');
